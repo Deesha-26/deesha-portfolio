@@ -134,7 +134,7 @@ export default function Portfolio() {
               {item}
             </button>
           ))}
-          <Btn primary small onClick={() => window.open("mailto:db3808@columbia.edu")}>Hire Me</Btn>
+          <Btn primary small onClick={() => window.open("https://linkedin.com/in/deesharaj", "_blank")}>Hire Me</Btn>
         </div>
       </nav>
 
@@ -158,7 +158,7 @@ export default function Portfolio() {
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <Btn primary onClick={() => scroll("projects")}>View My Work</Btn>
             <Btn onClick={() => window.open("https://linkedin.com/in/deesharaj", "_blank")}>LinkedIn ↗</Btn>
-            <Btn onClick={() => window.open("mailto:db3808@columbia.edu")}>Get in Touch</Btn>
+            <Btn onClick={() => window.open("https://github.com/Deesha-26", "_blank")}>GitHub ↗</Btn>
           </div>
         </div>
       </section>
@@ -205,8 +205,8 @@ export default function Portfolio() {
               </div>
               <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "12px 16px" }}>
                 <div style={{ fontSize: 11, color: "#64748b", marginBottom: 4 }}>Contact</div>
-                <div style={{ fontSize: 13, fontWeight: 600 }}>db3808@columbia.edu</div>
-                <div style={{ fontSize: 13, color: "#94a3b8" }}>New York, NY</div>
+                <div style={{ fontSize: 13, fontWeight: 600, cursor: "pointer", color: "#6366f1" }} onClick={() => window.open("https://linkedin.com/in/deesharaj", "_blank")}>linkedin.com/in/deesharaj ↗</div>
+                <div style={{ fontSize: 13, color: "#94a3b8", cursor: "pointer" }} onClick={() => window.open("https://github.com/Deesha-26", "_blank")}>github.com/Deesha-26 ↗</div>
               </div>
             </div>
           </div>
@@ -300,13 +300,13 @@ export default function Portfolio() {
         <p style={{ fontSize: 13, color: "#e0407b", fontWeight: 600, letterSpacing: 2, marginBottom: 8, textAlign: "center" }}>BLOG</p>
         <h2 style={{ fontSize: 34, fontWeight: 800, textAlign: "center", marginBottom: 40 }}>Writing & Thinking</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          <Card style={{ cursor: "pointer" }} onClick={() => window.open("https://medium.com/p/3215fae33203", "_blank")}>
+          <Card style={{ cursor: "pointer" }} onClick={() => window.open("https://medium.com/@deesha-raj/the-127-000-mistake-most-ai-teams-dont-see-coming-3215fae33203", "_blank")}>
             <Tag>Published · Medium</Tag>
             <h3 style={{ fontSize: 16, fontWeight: 700, margin: "12px 0 8px", lineHeight: 1.4 }}>The $127,000 Mistake Most AI Teams Don't See Coming</h3>
             <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.7 }}>73% of fine-tuning projects fail. Here's why RAG quietly solves the problems that actually matter — and why choosing wrong is a product strategy mistake.</p>
             <div style={{ marginTop: 16, color: "#6366f1", fontSize: 13, fontWeight: 600 }}>Read on Medium ↗</div>
           </Card>
-          <Card style={{ cursor: "pointer" }} onClick={() => window.open("https://medium.com/@db3808/batch-processing-vs-one-at-a-time-which-model-actually-wins-210f1d21c089", "_blank")}>
+          <Card style={{ cursor: "pointer" }} onClick={() => window.open("https://medium.com/@deesha-raj/batch-processing-vs-one-at-a-time-which-model-actually-wins-210f1d21c089", "_blank")}>
             <Tag>Published · Medium</Tag>
             <h3 style={{ fontSize: 16, fontWeight: 700, margin: "12px 0 8px", lineHeight: 1.4 }}>Batch Processing vs One-at-a-Time: Which Model Actually Wins?</h3>
             <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.7 }}>A deep dive into data processing architectures and when to use each.</p>
@@ -322,18 +322,37 @@ export default function Portfolio() {
 
       {/* CONTACT */}
       <section id="contact" style={{ padding: "80px 40px", textAlign: "center" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <p style={{ fontSize: 13, color: "#e0407b", fontWeight: 600, letterSpacing: 2, marginBottom: 8 }}>GET IN TOUCH</p>
           <h2 style={{ fontSize: 38, fontWeight: 800, marginBottom: 16 }}>
             Let's <GradText>Build Something</GradText> Together
           </h2>
           <p style={{ color: "#94a3b8", lineHeight: 1.8, marginBottom: 36 }}>
-            I'm actively exploring PM and APM roles. If you're building something meaningful and need someone who can speak both data and product — let's talk.
+            I'm actively exploring PM and APM roles. If you're building something meaningful and need someone who can speak both data and product — let's connect on LinkedIn.
           </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Btn primary onClick={() => window.open("mailto:db3808@columbia.edu")}>📧 Email Me</Btn>
-            <Btn onClick={() => window.open("https://linkedin.com/in/deesharaj", "_blank")}>LinkedIn</Btn>
-            <Btn onClick={() => window.open("https://medium.com/@db3808", "_blank")}>Medium</Btn>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 48 }}>
+            <Btn primary onClick={() => window.open("https://linkedin.com/in/deesharaj", "_blank")}>💼 Connect on LinkedIn</Btn>
+            <Btn onClick={() => window.open("https://github.com/Deesha-26", "_blank")}>🐙 View GitHub</Btn>
+            <Btn onClick={() => window.open("https://medium.com/@deesha-raj", "_blank")}>✍️ Read on Medium</Btn>
+          </div>
+          <div style={{ background: "#15151f", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: 24, textAlign: "left" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #e0407b, #6366f1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🐙</div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 14 }}>Deesha-26</div>
+                  <div style={{ fontSize: 12, color: "#64748b" }}>github.com/Deesha-26</div>
+                </div>
+              </div>
+              <Btn small onClick={() => window.open("https://github.com/Deesha-26", "_blank")}>View Profile ↗</Btn>
+            </div>
+            <img
+              src="https://ghchart.rshah.org/e0407b/Deesha-26"
+              alt="Deesha's GitHub contribution chart"
+              style={{ width: "100%", borderRadius: 8, filter: "invert(0)" }}
+              onError={e => e.currentTarget.style.display = "none"}
+            />
+            <div style={{ marginTop: 12, fontSize: 12, color: "#475569", textAlign: "center" }}>GitHub contribution activity</div>
           </div>
         </div>
       </section>
