@@ -300,18 +300,26 @@ export default function Portfolio() {
         <p style={{ fontSize: 13, color: "#e0407b", fontWeight: 600, letterSpacing: 2, marginBottom: 8, textAlign: "center" }}>BLOG</p>
         <h2 style={{ fontSize: 34, fontWeight: 800, textAlign: "center", marginBottom: 40 }}>Writing & Thinking</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          <Card style={{ cursor: "pointer" }} onClick={() => window.open("https://medium.com/@deesha-raj/the-127-000-mistake-most-ai-teams-dont-see-coming-3215fae33203", "_blank")}>
-            <Tag>Published · Medium</Tag>
-            <h3 style={{ fontSize: 16, fontWeight: 700, margin: "12px 0 8px", lineHeight: 1.4 }}>The $127,000 Mistake Most AI Teams Don't See Coming</h3>
-            <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.7 }}>73% of fine-tuning projects fail. Here's why RAG quietly solves the problems that actually matter — and why choosing wrong is a product strategy mistake.</p>
-            <div style={{ marginTop: 16, color: "#6366f1", fontSize: 13, fontWeight: 600 }}>Read on Medium ↗</div>
-          </Card>
-          <Card style={{ cursor: "pointer" }} onClick={() => window.open("https://medium.com/@deesha-raj/batch-processing-vs-one-at-a-time-which-model-actually-wins-210f1d21c089", "_blank")}>
-            <Tag>Published · Medium</Tag>
-            <h3 style={{ fontSize: 16, fontWeight: 700, margin: "12px 0 8px", lineHeight: 1.4 }}>Batch Processing vs One-at-a-Time: Which Model Actually Wins?</h3>
-            <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.7 }}>A deep dive into data processing architectures and when to use each.</p>
-            <div style={{ marginTop: 16, color: "#6366f1", fontSize: 13, fontWeight: 600 }}>Read on Medium ↗</div>
-          </Card>
+          <a href="https://medium.com/@deesha-raj/the-127-000-mistake-most-ai-teams-dont-see-coming-3215fae33203" target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+            <div style={{ background: "#15151f", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: 28, height: "100%", boxSizing: "border-box", transition: "border-color 0.2s", cursor: "pointer" }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(224,64,123,0.3)"}
+              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"}>
+              <Tag>Published · Medium</Tag>
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: "12px 0 8px", lineHeight: 1.4 }}>The $127,000 Mistake Most AI Teams Don't See Coming</h3>
+              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.7 }}>73% of fine-tuning projects fail. Here's why RAG quietly solves the problems that actually matter — and why choosing wrong is a product strategy mistake.</p>
+              <div style={{ marginTop: 16, color: "#6366f1", fontSize: 13, fontWeight: 600 }}>Read on Medium ↗</div>
+            </div>
+          </a>
+          <a href="https://medium.com/@deesha-raj/batch-processing-vs-one-at-a-time-which-model-actually-wins-210f1d21c089" target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
+            <div style={{ background: "#15151f", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: 28, height: "100%", boxSizing: "border-box", transition: "border-color 0.2s", cursor: "pointer" }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(224,64,123,0.3)"}
+              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"}>
+              <Tag>Published · Medium</Tag>
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: "12px 0 8px", lineHeight: 1.4 }}>Batch Processing vs One-at-a-Time: Which Model Actually Wins?</h3>
+              <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.7 }}>A deep dive into data processing architectures and when to use each.</p>
+              <div style={{ marginTop: 16, color: "#6366f1", fontSize: 13, fontWeight: 600 }}>Read on Medium ↗</div>
+            </div>
+          </a>
           <Card style={{ opacity: 0.6 }}>
             <Tag>Coming Soon</Tag>
             <h3 style={{ fontSize: 16, fontWeight: 700, margin: "12px 0 8px", lineHeight: 1.4 }}>From Engineering to PM: My Transition</h3>
