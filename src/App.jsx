@@ -203,11 +203,11 @@ export default function Portfolio() {
                 <div style={{ fontSize: 13, fontWeight: 600 }}>MS · Columbia University, MS&E</div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: "#94a3b8" }}>BE · BIT Bangalore, CS</div>
               </div>
-              <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "12px 16px" }}>
+              {/* <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "12px 16px" }}>
                 <div style={{ fontSize: 11, color: "#64748b", marginBottom: 4 }}>Contact</div>
                 <div style={{ fontSize: 13, fontWeight: 600, cursor: "pointer", color: "#6366f1" }} onClick={() => window.open("https://linkedin.com/in/deesharaj", "_blank")}>linkedin.com/in/deesharaj ↗</div>
                 <div style={{ fontSize: 13, color: "#94a3b8", cursor: "pointer" }} onClick={() => window.open("https://github.com/Deesha-26", "_blank")}>github.com/Deesha-26 ↗</div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
