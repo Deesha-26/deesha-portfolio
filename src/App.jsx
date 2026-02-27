@@ -192,7 +192,7 @@ export default function Portfolio() {
               Data Engineer <GradText>→ Product Manager</GradText>
             </h2>
             <p style={{ color: "#94a3b8", lineHeight: 1.8, marginBottom: 16 }}>
-              My journey into product management is driven by a unique blend of <b>technical depth</b> and <b>strategic thinking</b>. With a Bachelor's in Computer Science and 3 years at Fidelity Investments as a Data Engineer, I've built the technical foundation to understand complex systems.
+              My journey into product management is driven by a unique blend of <span className="text-neutral-900">technical depth</span> and <span className="text-neutral-900">strategic thinking</span>. With a Bachelor's in Computer Science and 3 years at Fidelity Investments as a Data Engineer, I've built the technical foundation to understand complex systems.
 
 What sets me apart is my ability to <b>translate technical complexity into user value</b>. I've seen firsthand how data-driven insights can transform product decisions, and I'm passionate about building solutions that solve real problems.
 
