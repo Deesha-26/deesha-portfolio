@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Deesha B Raj — Product Manager</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="description" content="Product manager with an engineering background. Columbia MS&amp;E, graduating December 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,400&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────  tokens  ───────────────────────────── */
+:root{
+  --black:#08080A;
+  --ink:#F6F3EE;
+  --muted:#8A867E;
+  --line:rgba(246,243,238,.14);
+  --amber:#E0A24C;          /* the one warm accent */
+  --amber-soft:rgba(224,162,76,.16);
+  --cream:#EFE7D8;
+  --cream-shade:#DED4C1;
+
+  --display:"Fraunces","Iowan Old Style",Georgia,serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --hand:"Caveat","Segoe Script",cursive;
+
+  --pad-x:clamp(22px,3.4vw,52px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--black);
+  color:var(--ink);
+  font-family:var(--body);
+  overflow:hidden;                 /* no page scroll */
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:2px}
+
+/* ─────────────────────────────  grain  ───────────────────────────── */
+.grain{
+  position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ────────────────────────  the paper reel  ──────────────────────── */
+.reel{
+  position:fixed;
+  top:38px;bottom:12px;
+  right:clamp(20px,2.6vw,56px);
+  width:min(46vw,660px);
+  z-index:1;
+}
+.reel-layer{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  display:block;
+  /* ORIENTATION: the scenes play exactly as shot — no scaleX, no flip, no rotate.
+     Do not add a transform here; the reel is not a mirror. */
+  opacity:0;
+  filter:brightness(.87) saturate(1.02);   /* the crumpled ball clips hot against pure black */
+  transition:opacity var(--fade,200ms) linear;
+  -webkit-mask-image:radial-gradient(ellipse 60% 58% at center,#000 48%,rgba(0,0,0,0) 82%);
+          mask-image:radial-gradient(ellipse 60% 58% at center,#000 48%,rgba(0,0,0,0) 82%);
+}
+.reel-layer.is-live{opacity:1}
+/* laptops around 700px of usable height were clipping the bio pill */
+@media (min-width:981px) and (max-height:800px){
+  .shell{padding-top:18px}
+  .tagline{min-height:56px;margin-bottom:14px}
+  .headline{font-size:clamp(34px,4.3vw,58px)}
+  .hero{padding-bottom:2vh}
+  .hint-line{margin-top:14px}
+  .bio{font-size:12.5px;line-height:1.55;margin-bottom:14px}
+  .foot .pill{padding:9px 18px}
+}
+@media (min-width:981px) and (max-height:700px){
+  .headline{font-size:clamp(30px,3.7vw,46px)}
+  .hint-line{display:none}
+  .tagline{min-height:48px}
+}
+
+@media (prefers-reduced-motion:reduce){ .reel-layer{transition:none} }
+/* keeps the headline readable where the portrait sits behind it */
+.scrim{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,rgba(8,8,10,.92) 0%,rgba(8,8,10,.7) 30%,rgba(8,8,10,.3) 50%,rgba(8,8,10,0) 64%);
+}
+.reel-badge{
+  position:absolute;top:46px;left:6px;z-index:3;
+  display:flex;align-items:center;gap:8px;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);
+  padding:6px 11px 6px 9px;
+  border:1px solid var(--line);border-radius:999px;
+  background:rgba(8,8,10,.5);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  white-space:nowrap;
+}
+.reel-badge .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--muted);
+  transition:background .25s ease,box-shadow .25s ease;
+}
+.reel-badge.is-crumpling{color:var(--ink)}
+.reel-badge.is-crumpling .dot{background:var(--amber);box-shadow:0 0 10px var(--amber)}
+
+/* ─────────────────────────────  nav  ───────────────────────────── */
+.shell{
+  position:relative;z-index:3;
+  pointer-events:none;                 /* empty space falls through to the reel */
+  height:100%;
+  display:flex;flex-direction:column;
+  padding:26px var(--pad-x) clamp(20px,3vh,34px);
+}
+.nav,.tagline,.headline,.foot{pointer-events:auto}
+.nav{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding-bottom:20px;border-bottom:1px solid var(--line);
+}
+.wordmark{
+  grid-column:1;
+  font-family:var(--display);font-weight:500;font-size:22px;letter-spacing:.005em;
+}
+.wordmark span{color:var(--amber)}
+.nav-links{
+  grid-column:2;
+  display:flex;gap:clamp(18px,2.4vw,34px);justify-self:center;
+  font-size:12.5px;letter-spacing:.04em;color:var(--muted);
+}
+.nav-links a{transition:color .2s ease}
+.nav-links a:hover{color:var(--ink)}
+.nav-actions{grid-column:3;display:flex;gap:10px;justify-self:end}
+.pill{
+  font-size:12.5px;letter-spacing:.02em;
+  padding:9px 18px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink);transition:border-color .2s ease,background .2s ease,color .2s ease;
+}
+.pill:hover{border-color:rgba(246,243,238,.4)}
+.pill--solid{background:var(--ink);color:#0B0B0D;border-color:var(--ink);font-weight:500}
+.pill--solid:hover{background:#fff}
+
+/* ────────────────────────────  hero  ──────────────────────────── */
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:4vh}
+.lane{width:min(620px,44vw)}          /* the reel starts well right of this */
+.tagline{
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 16px;
+  max-width:min(58vw,880px);
+  min-height:64px;                    /* reserved, so a longer line can't shove the headline down */
+  margin-bottom:clamp(16px,2.6vh,28px);
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+}
+.tagline .mark{color:var(--amber);letter-spacing:.14em;white-space:nowrap}
+.tagline .rule{width:clamp(18px,2.6vw,40px);height:1px;background:var(--line);align-self:center}
+
+.headline{
+  max-width:100%;
+  font-family:var(--body);
+  font-weight:500;
+  font-size:clamp(32px,3.5vw,50px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+}
+.headline .ln{display:block}
+.headline .ital{
+  display:block;
+  margin-top:6px;
+  font-family:var(--display);
+  font-style:italic;font-weight:300;
+  font-size:clamp(21px,2.3vw,33px);
+  line-height:1.15;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+.headline .ital em{font-style:italic;color:var(--amber)}
+
+.chapter{margin-bottom:clamp(18px,2.8vh,32px);min-height:132px;display:flex;flex-direction:column;justify-content:flex-end}
+.chapter-tag{margin-bottom:12px}
+.chapter-tag .mark{
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);
+  transition:opacity .12s linear;
+}
+.chapter-line{
+  font-family:var(--display);
+  font-style:italic;font-weight:300;
+  font-size:clamp(19px,1.95vw,27px);
+  line-height:1.32;letter-spacing:-.01em;
+  color:var(--ink);
+  transition:opacity .16s ease,transform .16s ease;
+}
+.chapter-rule{
+  display:block;height:1px;width:0;margin-top:14px;background:var(--amber);
+  transition:width .6s cubic-bezier(.2,.8,.2,1);
+}
+.chapter-rule.draw{width:72px}
+.chapter-line.swapping,.chapter-tag .mark.swapping{opacity:0;transform:translateY(6px)}
+.hint-line{
+  margin-top:clamp(16px,2.4vh,28px);
+  font-size:13px;line-height:1.5;color:var(--muted);
+}
+@media (max-width:980px){
+  .lane{width:100%}
+  .chapter{min-height:150px}
+  .chapter-line{font-size:clamp(18px,5vw,24px)}
+}
+
+/* ────────────────────────────  bio  ──────────────────────────── */
+.foot{max-width:min(620px,44vw)}
+.bio{color:var(--muted);font-size:13.5px;line-height:1.65;margin-bottom:18px}
+.bio b{color:var(--ink);font-weight:500}
+.foot .pill{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:#0B0B0D;border-color:var(--ink);font-weight:500;padding:11px 20px}
+.foot .pill:hover{background:#fff}
+
+/* ───────────────────  floating polaroid webcam  ─────────────────── */
+.polaroid{
+  position:fixed;right:26px;bottom:26px;width:240px;
+  container-type:inline-size;
+  z-index:40;
+  touch-action:none;
+  -webkit-user-select:none;user-select:none;
+}
+.polaroid .paper{
+  position:relative;
+  transform:rotate(-2.6deg);
+  background:var(--cream);
+  padding:4.2cqw 4.2cqw 1cqw;
+  border-radius:2px;
+  box-shadow:0 28px 60px rgba(0,0,0,.62),0 2px 12px rgba(0,0,0,.5),
+             inset 0 1px 0 rgba(255,255,255,.6);
+  cursor:grab;
+}
+.polaroid.dragging .paper{cursor:grabbing}
+.polaroid .paper::after{        /* paper grain */
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:2px;
+  opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.28'/%3E%3C/svg%3E");
+}
+.tape{
+  position:absolute;top:-3.4cqw;left:50%;
+  transform:translateX(-50%) rotate(-1.4deg);
+  width:46cqw;height:7.6cqw;
+  background:linear-gradient(180deg,rgba(255,252,240,.42),rgba(232,226,206,.34));
+  box-shadow:0 1px 4px rgba(0,0,0,.28);
+  border-left:1px dashed rgba(255,255,255,.35);
+  border-right:1px dashed rgba(255,255,255,.35);
+}
+.shot{
+  position:relative;aspect-ratio:3/3.4;background:#101014;overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.35);
+}
+.shot canvas{width:100%;height:100%;display:block}
+.hand-pill{
+  position:absolute;left:3cqw;bottom:3cqw;z-index:2;
+  display:flex;align-items:center;gap:2cqw;
+  font-family:var(--body);font-size:3.1cqw;letter-spacing:.06em;
+  color:rgba(246,243,238,.85);
+  background:rgba(10,10,12,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  padding:1.6cqw 3cqw;border-radius:999px;
+  max-width:88cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.hand-pill .dot{width:2cqw;height:2cqw;border-radius:50%;background:var(--muted);flex:none}
+.hand-pill.live .dot{background:var(--amber);box-shadow:0 0 2cqw var(--amber)}
+.caption{
+  font-family:var(--hand);
+  font-size:7.4cqw;line-height:1.15;
+  color:#2A2620;
+  text-align:center;
+  padding:2.6cqw 1cqw 3.2cqw;
+}
+.caption .emo{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:6.4cqw}
+.grip{
+  position:absolute;right:1.4cqw;bottom:1.4cqw;width:7cqw;height:7cqw;
+  cursor:nwse-resize;z-index:3;opacity:.5;
+  background:
+    linear-gradient(135deg,transparent 44%,#2A2620 44%,#2A2620 54%,transparent 54%),
+    linear-gradient(135deg,transparent 70%,#2A2620 70%,#2A2620 80%,transparent 80%);
+}
+.grip:hover{opacity:.85}
+
+/* ─────────────────────────  fallback note  ───────────────────────── */
+.offline{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:16px;
+  z-index:50;display:none;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:7px 13px;
+  background:rgba(8,8,10,.6);
+}
+body.tracking-offline .offline{display:block}
+body.tracking-offline .reel{cursor:pointer}
+
+/* ─────────────────────────  entrance  ───────────────────────── */
+.rise{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.22,.8,.24,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.27s}
+.d4{animation-delay:.38s}.d5{animation-delay:.49s}.d6{animation-delay:.6s}
+.d7{animation-delay:.72s}.d8{animation-delay:.86s}
+
+/* ─────────────────────────  responsive  ───────────────────────── */
+@media (max-width:980px){
+  .nav-links{display:none}
+  .reel{top:0;right:0;bottom:0;left:0;width:auto;opacity:.2;z-index:0}
+  .reel-layer{
+    object-fit:cover;
+    -webkit-mask-image:radial-gradient(ellipse 80% 70% at center,#000 40%,rgba(0,0,0,0) 88%);
+            mask-image:radial-gradient(ellipse 80% 70% at center,#000 40%,rgba(0,0,0,0) 88%);
+  }
+  .reel-badge{top:86px;right:var(--pad-x);left:auto;bottom:auto}
+  .scrim{background:linear-gradient(180deg,rgba(8,8,10,.72) 0%,rgba(8,8,10,.5) 45%,rgba(8,8,10,.86) 100%)}
+  .tagline{max-width:100%;min-height:96px}
+  .headline{max-width:100%;font-size:clamp(34px,8.6vw,54px)}
+  .foot{max-width:100%}
+  .polaroid{width:132px;right:14px;bottom:14px}
+  .offline{bottom:auto;top:114px;left:var(--pad-x);transform:none;
+           font-size:9.5px;letter-spacing:.08em;white-space:nowrap;padding:6px 10px}
+  .foot .bio{padding-right:118px}
+}
+@media (max-width:620px){
+  .nav-actions .pill--ghost{display:none}
+}
+
+/* laptops around 700px of usable height were clipping the bio pill */
+@media (min-width:981px) and (max-height:800px){
+  .shell{padding-top:18px}
+  .tagline{min-height:56px;margin-bottom:14px}
+  .headline{font-size:clamp(34px,4.3vw,58px)}
+  .hero{padding-bottom:2vh}
+  .hint-line{margin-top:14px}
+  .bio{font-size:12.5px;line-height:1.55;margin-bottom:14px}
+  .foot .pill{padding:9px 18px}
+}
+@media (min-width:981px) and (max-height:700px){
+  .headline{font-size:clamp(30px,3.7vw,46px)}
+  .hint-line{display:none}
+  .tagline{min-height:48px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rise{animation:none;opacity:1;transform:none}
+  .reel-badge .dot{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ── the paper reel ─────────────────────────────────────────── -->
+<section class="reel" id="reel" aria-label="Paper scenes, crumpled by your hand">
+  <div class="reel-badge" id="badge" role="status" aria-live="polite"><span class="dot"></span><span class="txt">Flat</span></div>
+  <video class="reel-layer is-live" id="layerA" muted playsinline preload="auto"></video>
+  <video class="reel-layer" id="layerB" muted playsinline preload="auto"></video>
+</section>
+
+<div class="scrim" aria-hidden="true"></div>
+
+<div class="offline" id="offline" role="status" aria-live="polite">Tracking offline — click the reel to play/pause</div>
+
+<!-- ── page ───────────────────────────────────────────────────── -->
+<div class="shell">
+  <header class="nav">
+    <div class="wordmark rise d1">Deesha B Raj<span>.</span></div>
+    <nav class="nav-links rise d2">
+      <a href="work.html#decisions">Decisions</a><a href="work.html#built">Projects</a><a href="work.html#casestudy">Case study</a><a href="mailto:db3808@columbia.edu">Contact</a>
+    </nav>
+    <div class="nav-actions rise d2">
+      <a class="pill pill--ghost" href="https://www.linkedin.com/in/deesharaj/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="pill pill--solid" href="mailto:db3808@columbia.edu">Get in touch</a>
+    </div>
+  </header>
+
+  <main class="hero">
+    <div class="chapter lane rise d3">
+      <div class="chapter-tag"><span class="mark" id="studyLabel">01 — The Work</span></div>
+      <p class="chapter-line" id="chapterLine">I turn data into decisions people can feel.</p>
+      <span class="chapter-rule" id="chapterRule"></span>
+    </div>
+    <h1 class="headline lane">
+      <span class="ln rise d4">Product Manager</span>
+      <span class="ital rise d5">with an <em>engineering background.</em></span>
+    </h1>
+    <p class="hint-line lane rise d6">Open your hand to flatten. Make a fist to crumple.</p>
+  </main>
+
+  <footer class="foot">
+    <p class="bio rise d7">
+      <b>Deesha B Raj</b> — three years building the data Fidelity ran on, then product at FIX-IT.
+      Columbia MS&amp;E, graduating December 2026. I work where the engineering detail meets the business decision.
+    </p>
+    <a class="pill rise d8" id="seeWork" href="work.html">See my work <span aria-hidden="true">→</span></a>
+  </footer>
+</div>
+
+<!-- ── polaroid webcam ────────────────────────────────────────── -->
+<div class="polaroid rise d8" id="polaroid">
+  <div class="paper" id="paperCard">
+    <div class="tape" aria-hidden="true"></div>
+    <div class="shot">
+      <canvas id="cam" width="360" height="408"></canvas>
+      <div class="hand-pill" id="handPill"><span class="dot"></span><span class="txt">Waking the camera</span></div>
+    </div>
+    <div class="caption"><span class="emo">🖐</span> keep your hand close! <span class="emo">✊</span></div>
+    <div class="grip" id="grip" title="Drag to resize"></div>
+  </div>
+</div>
+
+<!-- ═══════════ core: scrub loop, drag/resize, fallbacks ═══════════ -->
+<script>
+(function(){
+  "use strict";
+
+  /* ── the playlist ──────────────────────────────────────────────────
+     Each entry is one flat → ball scene. Add a clip by adding a line;
+     the loop wraps automatically. Every clip must start on its flat
+     frame and end on its tightest ball.                              */
+  const CLIPS = [
+    { src:'scrunch-scrub.mp4', poster:'poster.jpg', label:'01 — The Work',
+      line:'I turn data into decisions people can feel.' },
+    { src:'meeting-scrub.mp4', poster:'poster-meeting.jpg', label:'02 — The Room',
+      line:'Half the job is building the roadmap. The other half is getting the room to believe in it.' },
+    { src:'handshake-scrub.mp4', poster:'poster-handshake.jpg', label:'03 — The Alignment',
+      line:'Between the people who want it and the people who build it, someone has to close the gap.' }
+  ];
+  const SWAP_FADE_MS = 200;   // set to 0 for a hard cut at the flat frame
+  const ARM_AT       = 0.995; // the badge must read 100% before a clip can hand over
+  const FLAT_AT      = 0.005; // ...and scrunch must come home to flat to fire
+
+  const reel    = document.getElementById('reel');
+  const badge   = document.getElementById('badge');
+  const badgeTx = badge.querySelector('.txt');
+  const label   = document.getElementById('studyLabel');
+  const chapter = document.getElementById('chapterLine');
+
+  const rule = document.getElementById('chapterRule');
+
+  function paintChapter(i){
+    const c = CLIPS[i];
+    if (rule) rule.classList.remove('draw');
+    if (label) label.classList.add('swapping');
+    if (chapter) chapter.classList.add('swapping');
+    setTimeout(() => {
+      if (label){ label.textContent = c.label; label.classList.remove('swapping'); }
+      if (chapter && c.line){ chapter.textContent = c.line; chapter.classList.remove('swapping'); }
+      if (rule) requestAnimationFrame(() => rule.classList.add('draw'));
+    }, SWAP_FADE_MS * 0.55);
+  }
+  requestAnimationFrame(() => { if (rule) rule.classList.add('draw'); });
+  const layers  = [document.getElementById('layerA'), document.getElementById('layerB')];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let live = 0;               // which layer element is on screen
+  let clip = 0;               // which CLIPS entry that layer is showing
+  let target = 0;             // where the hand wants the paper
+  let shown  = 0;             // where the paper actually is (eased)
+  let lastSeek = -1;
+  let armed = false;          // has this clip been crushed to 100% yet?
+  let swapping = false;
+  let fallbackPlayback = false;
+  let playRequested = false;  // holds the scrub loop off while fallback playback starts
+  let broken = false;
+
+  const bad = new Set();      // clips whose file would not load
+
+  const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  const video = () => layers[live];
+
+  function markBad(i){
+    if (!Number.isInteger(i) || bad.has(i)) return;
+    bad.add(i);
+    console.warn('[reel] clip ' + i + ' (' + (CLIPS[i] && CLIPS[i].src) + ') failed to load — skipping it in the loop.');
+  }
+  function nextHealthy(from){
+    for (let step = 1; step <= CLIPS.length; step++){
+      const i = (from + step) % CLIPS.length;
+      if (!bad.has(i)) return i;
+    }
+    return -1;                // nothing left to show
+  }
+  const ready = v => v.readyState >= 1 && isFinite(v.duration) && v.duration > 0;
+
+  reel.style.setProperty('--fade', SWAP_FADE_MS + 'ms');
+
+  /* ── loading ─────────────────────────────────────────────────────── */
+  function mount(el, i){
+    const c = CLIPS[i];
+    el.dataset.clip = i;
+    if (el.getAttribute('src') !== c.src){
+      el.poster = c.poster;
+      el.setAttribute('src', c.src);
+      el.load();
+    }
+    el.pause();
+    if (ready(el) && el.currentTime !== 0) el.currentTime = 0;  // next clip waits on its flat frame
+  }
+  layers.forEach(el => {
+    el.addEventListener('loadeddata', () => {
+      if (el === video()){
+        broken = false;                           // a healthy clip is live again
+        clip = Number(el.dataset.clip);
+        paintChapter(clip);
+      } else if (el.currentTime !== 0){
+        el.currentTime = 0;                       // standby waits on its flat frame
+      }
+    });
+    el.addEventListener('error', () => {
+      const i = Number(el.dataset.clip);
+      markBad(i);
+      const alt = nextHealthy(i);
+      if (alt === -1){                            // every clip is unloadable
+        if (el === video()){
+          broken = true;
+          badgeTx.textContent = 'Reel unavailable';
+          badge.classList.remove('is-crumpling');
+        }
+        return;
+      }
+      mount(el, alt);                             // pull in the next healthy clip instead
+      if (el === video()) lastSeek = -1;
+    });
+    el.addEventListener('play',  () => { lastSeek = -1; if (!fallbackPlayback || el !== video()) el.pause(); });
+    el.addEventListener('pause', () => { playRequested = false; });
+    el.addEventListener('ended', () => {
+      playRequested = false; lastSeek = -1;
+      if (fallbackPlayback && el === video()){
+        target = 0; shown = 0;      // the scene has finished its crumple: come home to flat
+        armed = true;               // ...and hand over, so clicking cycles every clip
+      }
+    });
+  });
+  mount(layers[0], 0);
+  mount(layers[1], CLIPS.length > 1 ? 1 : 0);
+
+  /* ── handing one clip over to the next, at flat ──────────────────── */
+  function advance(){
+    const nextLayer = 1 - live;
+    const want = nextHealthy(clip);
+    if (want === -1) return;                                       // nowhere to go
+    if (want === clip){ armed = false; return; }                   // only one usable clip: nothing to hand over to
+    if (Number(layers[nextLayer].dataset.clip) !== want){
+      mount(layers[nextLayer], want);                              // standby holds a skipped clip
+      return;                                                      // wait for it, stay armed
+    }
+    if (!ready(layers[nextLayer]) || layers[nextLayer].readyState < 2) return;  // wait, stay armed
+
+    swapping = true;
+    armed = false;
+    layers[nextLayer].classList.add('is-live');
+    layers[live].classList.remove('is-live');
+    live = nextLayer;
+    clip = Number(layers[nextLayer].dataset.clip);
+    lastSeek = -1;
+    paintChapter(clip);
+
+    setTimeout(() => {
+      swapping = false;
+      const standby = layers[1 - live];
+      standby.pause();
+      const queue = nextHealthy(clip);
+      if (queue !== -1) mount(standby, queue);     // queue up the one after this
+      if (ready(standby)) standby.currentTime = 0;
+    }, SWAP_FADE_MS + 60);
+  }
+
+  /* ── scrub ───────────────────────────────────────────────────────── */
+  function setTarget(v){
+    target = clamp01(v);
+    if (fallbackPlayback && !video().paused) video().pause();   // scrubbing wins over playback
+  }
+  function getTarget(){ return target; }
+
+  function paintBadge(v){
+    if (broken) return;
+    const crumpling = v >= 0.03;
+    badgeTx.textContent = reduced ? 'Flat · motion reduced'
+                                 : crumpling ? Math.round(v * 100) + '% scrunched' : 'Flat';
+    badge.classList.toggle('is-crumpling', crumpling);
+  }
+
+  function frame(){
+    const v = video();
+    shown += (target - shown) * 0.18;
+    if (Math.abs(target - shown) < 0.0005) shown = target;
+
+    if (ready(v) && !broken && !reduced && v.paused && !playRequested){
+      const t = clamp01(shown) * (v.duration - 0.06);
+      if (lastSeek < 0 || Math.abs(t - lastSeek) > 0.004){
+        v.currentTime = t;              // the ONLY place currentTime is written
+        lastSeek = t;
+      }
+    }
+
+    // a clip earns its handover by being crushed all the way, then coming home
+    if (!reduced && !broken && CLIPS.length > 1){
+      if (shown >= ARM_AT) armed = true;
+      if (armed && !swapping && shown <= FLAT_AT && target <= FLAT_AT) advance();
+    }
+
+    const pos = (ready(v) && !v.paused) ? v.currentTime / (v.duration - 0.06) : shown;
+    paintBadge(reduced ? 0 : clamp01(pos));
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // testing hooks: __scrunch(0…1) drives the reel, __advance() forces a handover
+  window.__scrunch = function(v){ setTarget(parseFloat(v) || 0); return target; };
+  window.__advance = function(){ armed = true; advance(); return CLIPS[clip].label; };
+  window.__reel = {
+    setTarget, getTarget,
+    get shown(){ return shown; },
+    get clip(){ return clip; },
+    get armed(){ return armed; }
+  };
+
+  /* ── fallback: no tracking → click the reel to play/pause ────────── */
+  window.__trackingOffline = function(msg){
+    fallbackPlayback = true;
+    document.body.classList.add('tracking-offline');
+    if (msg) document.getElementById('offline').textContent = msg;
+    const pill = document.getElementById('handPill');
+    pill.classList.remove('live');
+    pill.querySelector('.txt').textContent = msg || 'Tracking offline';
+    reel.tabIndex = 0;                       // the fallback must be reachable without a mouse
+    reel.setAttribute('role','button');
+  };
+  function togglePlayback(){
+    if (!fallbackPlayback || reduced || broken) return;
+    const v = video();
+    if (!v.paused){ v.pause(); return; }
+    playRequested = true;                          // stop the loop seeking us back mid-rewind
+    if (ready(v) && v.currentTime >= v.duration - 0.12) v.currentTime = 0;  // crumpled? start from flat
+    v.play().catch(() => { playRequested = false; });
+  }
+  reel.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); togglePlayback(); }
+  });
+  reel.addEventListener('click', togglePlayback);
+
+  /* ── leaving: crush the sheet, then go ─────────────────────────── */
+  const seeWork = document.getElementById('seeWork');
+  if (seeWork) seeWork.addEventListener('click', e => {
+    if (reduced || broken || e.metaKey || e.ctrlKey || e.shiftKey) return;  // let normal navigation win
+    e.preventDefault();
+    const href = seeWork.getAttribute('href');
+    setTarget(1);
+    const started = performance.now();
+    (function waitForBall(){
+      if (shown > 0.94 || performance.now() - started > 900){ location.href = href; return; }
+      requestAnimationFrame(waitForBall);
+    })();
+  });
+
+  /* ───────────────── polaroid: drag + resize ───────────────── */
+  const pol  = document.getElementById('polaroid');
+  const grip = document.getElementById('grip');
+  let anchored = false;         // switched from right/bottom → left/top
+
+  function anchorTopLeft(){
+    if (anchored) return;
+    const r = pol.getBoundingClientRect();   // .paper holds the rotation, so this is exact
+    pol.style.left = r.left + 'px';
+    pol.style.top  = r.top  + 'px';
+    pol.style.right = 'auto';
+    pol.style.bottom = 'auto';
+    anchored = true;
+  }
+  function clampIntoView(){
+    if (!anchored) return;
+    const r = pol.getBoundingClientRect();
+    const x = Math.min(Math.max(8, parseFloat(pol.style.left) || r.left), Math.max(8, innerWidth  - r.width  - 8));
+    const y = Math.min(Math.max(8, parseFloat(pol.style.top)  || r.top ), Math.max(8, innerHeight - r.height - 8));
+    pol.style.left = x + 'px';
+    pol.style.top  = y + 'px';
+  }
+
+  let drag = null;
+  pol.addEventListener('pointerdown', e => {
+    if (e.target === grip) return;
+    anchorTopLeft();
+    drag = { id:e.pointerId, dx:e.clientX - parseFloat(pol.style.left), dy:e.clientY - parseFloat(pol.style.top) };
+    try { pol.setPointerCapture(e.pointerId); } catch {}
+    pol.classList.add('dragging');
+  });
+  pol.addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const r = pol.getBoundingClientRect();
+    pol.style.left = Math.min(Math.max(8, e.clientX - drag.dx), Math.max(8, innerWidth  - r.width  - 8)) + 'px';
+    pol.style.top  = Math.min(Math.max(8, e.clientY - drag.dy), Math.max(8, innerHeight - r.height - 8)) + 'px';
+  });
+  const endDrag = e => {
+    if (drag && (!e || e.pointerId === drag.id)){ pol.classList.remove('dragging'); drag = null; }
+  };
+  pol.addEventListener('pointerup', endDrag);
+  pol.addEventListener('pointercancel', endDrag);
+
+  let rez = null;
+  grip.addEventListener('pointerdown', e => {
+    e.stopPropagation(); e.preventDefault();
+    rez = { id:e.pointerId, x:e.clientX, w:pol.getBoundingClientRect().width };
+    try { grip.setPointerCapture(e.pointerId); } catch {}
+  });
+  grip.addEventListener('pointermove', e => {
+    if (!rez || e.pointerId !== rez.id) return;
+    const w = Math.min(520, Math.max(120, rez.w + (e.clientX - rez.x)));
+    pol.style.width = w + 'px';         // cqw internals keep every proportion
+    clampIntoView();
+  });
+  const endRez = e => { if (rez && (!e || e.pointerId === rez.id)) rez = null; };
+  grip.addEventListener('pointerup', endRez);
+  grip.addEventListener('pointercancel', endRez);
+
+  addEventListener('resize', clampIntoView);
+})();
+</script>
+
+<!-- ═══════════ hand tracking: openness → scrunch ═══════════ -->
+<script type="module">
+const CDN   = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10';
+const MODEL = 'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task';
+
+const canvas = document.getElementById('cam');
+const ctx    = canvas.getContext('2d');
+const pill   = document.getElementById('handPill');
+const pillTx = pill.querySelector('.txt');
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const LINKS = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],
+               [9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+
+const core = window.__reel || { setTarget(){}, getTarget(){ return 0; } };
+const goOffline = window.__trackingOffline || function(){};
+
+function say(text, live){ pillTx.textContent = text; pill.classList.toggle('live', !!live); }
+
+function sizeCanvas(){
+  const r = canvas.getBoundingClientRect();
+  const d = Math.min(devicePixelRatio || 1, 2);
+  const w = Math.max(1, Math.round(r.width * d)), h = Math.max(1, Math.round(r.height * d));
+  if (canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+}
+
+(async function start(){
+  const video = document.createElement('video');
+  video.playsInline = true; video.muted = true;
+  video.setAttribute('aria-hidden','true');
+  video.style.cssText = 'position:fixed;left:-9999px;top:0;width:2px;height:2px;opacity:0';
+  document.body.appendChild(video);   // detached video elements stop decoding in Safari
+
+  // 1. camera
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} }, audio:false
+    });
+    video.srcObject = stream;
+    await video.play();
+    say('Looking for a hand');
+  } catch (err){
+    goOffline('Camera unavailable — click reel to play/pause');
+    return;
+  }
+
+  // 2. MediaPipe
+  let landmarker = null;
+  try {
+    const vision = await import(`${CDN}/vision_bundle.mjs`);
+    const fileset = await vision.FilesetResolver.forVisionTasks(`${CDN}/wasm`);
+    const opts = d => ({
+      baseOptions:{ modelAssetPath: MODEL, delegate: d },
+      runningMode:'VIDEO', numHands:1
+    });
+    try { landmarker = await vision.HandLandmarker.createFromOptions(fileset, opts('GPU')); }
+    catch { landmarker = await vision.HandLandmarker.createFromOptions(fileset, opts('CPU')); }
+    say('Show me your hand', true);
+  } catch (err){
+    goOffline('Tracking offline — click reel to play/pause');
+    // camera still paints into the polaroid, just without a skeleton
+  }
+
+  // 3. loop
+  let lastVideoTime = -1, smoothOpen = 1, missing = 0;
+
+  function loop(){
+    requestAnimationFrame(loop);
+    if (video.readyState < 2) return;
+    sizeCanvas();
+
+    const cw = canvas.width, ch = canvas.height;
+    const vw = video.videoWidth || 640, vh = video.videoHeight || 480;
+    const s = Math.max(cw / vw, ch / vh);
+    const dw = vw * s, dh = vh * s, dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+
+    ctx.save();
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.translate(cw, 0); ctx.scale(-1, 1);        // mirrored feed
+    ctx.drawImage(video, dx, dy, dw, dh);
+    ctx.restore();
+
+    if (!landmarker) return;
+
+    if (video.currentTime !== lastVideoTime){
+      lastVideoTime = video.currentTime;
+      try {
+        const res = landmarker.detectForVideo(video, performance.now());
+        if (res && res.landmarks && res.landmarks.length){
+          loop.last = res.landmarks[0];               // fresh hand
+          missing = 0;
+        } else if (++missing > 6){
+          loop.last = null;                           // gone for real, not a dropped frame
+        }
+      } catch { /* keep drawing the feed */ }
+    }
+    const hand = loop.last;                           // held between detections
+
+    if (hand){
+      missing = 0;
+      const P = i => {
+        const X = dx + hand[i].x * dw, Y = dy + hand[i].y * dh;
+        return [cw - X, Y];                        // mirror to match the feed
+      };
+
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'rgba(255,255,255,.92)';
+      ctx.lineWidth = Math.max(1, cw * 0.006);
+      ctx.shadowColor = 'rgba(255,255,255,.55)';
+      ctx.shadowBlur = cw * 0.03;
+      ctx.beginPath();
+      for (const [a,b] of LINKS){ const A = P(a), B = P(b); ctx.moveTo(A[0],A[1]); ctx.lineTo(B[0],B[1]); }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = '#E0A24C';
+      for (let i = 0; i < hand.length; i++){
+        const [x,y] = P(i);
+        ctx.beginPath();
+        ctx.arc(x, y, cw * (i === 0 ? 0.016 : 0.009), 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // openness: fingertips → wrist, scaled by palm size
+      const d = (a,b) => Math.hypot(hand[a].x - hand[b].x, hand[a].y - hand[b].y);
+      const palm = d(0, 9) || 1e-6;
+      const r = ((d(8,0) + d(12,0) + d(16,0) + d(20,0)) / 4) / palm;
+      const open = Math.min(1, Math.max(0, (r - 1.05) / (1.85 - 1.05)));
+      smoothOpen += (open - smoothOpen) * 0.35;
+
+      if (!reduced) core.setTarget(1 - smoothOpen);
+      const pct = Math.round((1 - smoothOpen) * 100);
+      say(reduced ? 'Reel held flat — motion reduced'
+                  : pct < 3 ? 'Hand open — paper flat' : `Fist ${pct}% — crumpling`, true);
+    } else {
+      if (!reduced) core.setTarget(core.getTarget() * 0.965);   // ease back to flat
+      say('No hand — relaxing flat', false);
+    }
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
