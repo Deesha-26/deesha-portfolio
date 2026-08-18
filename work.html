@@ -4,7 +4,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Deesha B Raj — Work</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
 
 <meta name="description" content="Product decisions, AI case studies, and background. Product manager with an engineering background." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,6 +36,9 @@ body{
 }
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:3px}
+::selection{background:rgba(224,162,76,.3);color:#FFF9EF}
+::-moz-selection{background:rgba(224,162,76,.3);color:#FFF9EF}
+button,.w-btn,.flip,.p-more,.fact .n,.fact .k,.card .where,.sec-num{-webkit-user-select:none;user-select:none}
 
 .grain{
   position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.05;
@@ -950,10 +952,16 @@ a.way:hover .w-go{color:var(--amber)}
       await navigator.clipboard.writeText(mail);
     } catch {
       const t = document.createElement('textarea');
-      t.value = mail; document.body.appendChild(t); t.select();
+      t.value = mail;
+      t.setAttribute('readonly','');
+      t.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+      document.body.appendChild(t);
+      t.select();
       try { document.execCommand('copy'); } catch {}
       t.remove();
     }
+    const sel = window.getSelection && window.getSelection();
+    if (sel) sel.removeAllRanges();        // don't leave the page looking selected
     const was = copyBtn.textContent;
     copyBtn.textContent = 'Copied ✓';
     setTimeout(() => { copyBtn.textContent = was; }, 1800);
