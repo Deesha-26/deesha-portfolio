@@ -332,9 +332,8 @@ button,.w-btn,.flip,.p-more,.fact .n,.fact .k,.card .where,.sec-num{-webkit-user
 /* ── close ───────────────────────────────────────────────────────── */
 .close{
   padding:clamp(60px,10vh,120px) 0 clamp(50px,8vh,90px);border-top:1px solid var(--line);
-  -webkit-user-select:none;user-select:none;          /* a stray drag can't wash this block out */
+  -webkit-user-select:none;user-select:none;
 }
-.close .w-t,.close h2{-webkit-user-select:text;user-select:text}
 .close h2{font-family:var(--display);font-weight:300;font-size:clamp(28px,4vw,54px);line-height:1.15;letter-spacing:-.02em;max-width:17ch}
 .close h2 em{font-style:italic;color:var(--amber)}
 .close-sub{margin-top:22px;font-size:14px;color:var(--muted)}
@@ -349,14 +348,13 @@ button,.w-btn,.flip,.p-more,.fact .n,.fact .k,.card .where,.sec-num{-webkit-user
   background:rgba(255,255,255,.018);
   transition:border-color .2s ease,background .2s ease;
 }
-a.way:hover{border-color:var(--amber)}
 .way{-webkit-user-select:none;user-select:none}
-.w-t{-webkit-user-select:text;user-select:text}      /* the address is the one thing worth selecting */
 .w-k{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
 .w-t{margin-top:12px;font-family:var(--display);font-size:clamp(17px,1.5vw,20px);font-weight:500;letter-spacing:-.01em;word-break:break-word}
 .w-d{margin-top:9px;font-size:13px;line-height:1.55;color:var(--muted)}
 .w-go{margin-top:18px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(246,243,238,.75)}
-a.way:hover .w-go{color:var(--amber)}
+a.way:hover{border-color:var(--line)}
+a.way:hover .w-go{color:rgba(246,243,238,.75)}
 .w-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .w-btn{
   font:inherit;font-size:12px;padding:8px 15px;border-radius:999px;cursor:pointer;
